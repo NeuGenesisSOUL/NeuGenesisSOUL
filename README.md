@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @NeuGenesisSOUL
 - 👀 I’m interested in deploying my tokens.
 - 🌱 I’m currently learning, a little python3, blockchain technology and IPFS sharing.
-- 💞️ I’m looking to collaborate on an IPFS to mys ERC-20 tkens I created.
+- 💞️ I’m looking to collaborate on an IPFS pipeline that connects to the blochain by way of my NuGS ERC-20 tokens.
 - 📫 How to reach me neugensoul@gmail.com
 
 <!---
