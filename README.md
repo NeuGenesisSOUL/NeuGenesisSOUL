@@ -3,7 +3,7 @@
 - 🌱 I’m currently learning, a little python3, blockchain technology and IPFS sharing.
 - 💞️ I’m looking to collaborate on an IPFS pipeline that connects to the blochain by way of my NuGS ERC-20 tokens.
 - 📫 How to reach me neugensoul@gmail.com
-- My website is neugensoul.net
+- My website is https://neugensoul.net/
 
 <!---
 NeuGenesisSOUL/NeuGenesisSOUL is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
