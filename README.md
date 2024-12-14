@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @NeuGenesisSOUL
 - 👀 I’m interested in deploying a US election cryptographic ecosystem via DOGECOIN tokens.
-- 🌱 I’m currently learning, a little python3, blockchain technology and IPFS sharing.
+- 
 - 
 
 <!---
