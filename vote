@@ -1,0 +1,105 @@
+```python
+import hashlib
+import json
+import ecdsa
+import time
+from collections import defaultdict
+
+# Simulating a simple blockchain
+class Blockchain:
+    def __init__(self):
+        self.chain = []
+        self.current_votes = []
+        self.new_block(previous_hash='1', proof=100)
+
+    def new_block(self, proof, previous_hash=None):
+        block = {
+            'index': len(self.chain) + 1,
+            'timestamp': time.time(),
+            'votes': self.current_votes,
+            'proof': proof,
+            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+        }
+        self.current_votes = []
+        self.chain.append(block)
+        return block
+
+    def new_vote(self, voter_id, candidate):
+        vote = {
+            'voter_id': voter_id,
+            'candidate': candidate,
+            'vote_hash': self.hash_vote(voter_id, candidate)
+        }
+        self.current_votes.append(vote)
+        return vote
+
+    def hash(self, block):
+        block_string = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_string).hexdigest()
+
+    def hash_vote(self, voter_id, candidate):
+        vote_string = f'{voter_id}{candidate}'.encode()
+        return hashlib.sha256(vote_string).hexdigest()
+
+    def proof_of_work(self, last_proof):
+        proof = 0
+        while not self.valid_proof(last_proof, proof):
+            proof += 1
+        return proof
+
+    def valid_proof(self, last_proof, proof):
+        guess = f'{last_proof}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        return guess_hash[:4] == "0000"
+
+
+# Voter registration using ECDSA
+class Voter:
+    def __init__(self, name):
+        self.name = name
+        self.private_key = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
+        self.public_key = self.private_key.get_verifying_key()
+
+    def sign_vote(self, candidate):
+        # Sign the vote with the private key to authenticate
+        vote = f'{self.name}{candidate}'
+        return self.private_key.sign(vote.encode())
+
+    def verify_vote(self, signature, candidate):
+        # Verify vote using public key
+        vote = f'{self.name}{candidate}'
+        return self.public_key.verify(signature, vote.encode())
+
+# Main function to simulate voting
+def main():
+    blockchain = Blockchain()
+
+    # Registering a voter
+    voter1 = Voter('Alice')
+    voter2 = Voter('Bob')
+
+    # Voting
+    vote1_signature = voter1.sign_vote('Candidate A')
+    vote2_signature = voter2.sign_vote('Candidate B')
+
+    # Verify vote signatures (simulation)
+    if voter1.verify_vote(vote1_signature, 'Candidate A') and voter2.verify_vote(vote2_signature, 'Candidate B'):
+        print("Votes verified successfully.")
+
+        # Cast votes into the blockchain
+        blockchain.new_vote(voter1.name, 'Candidate A')
+        blockchain.new_vote(voter2.name, 'Candidate B')
+
+    # Mining a new block to add the votes to the blockchain
+    last_proof = blockchain.chain[-1]['proof']
+    proof = blockchain.proof_of_work(last_proof)
+    blockchain.new_block(proof)
+
+    # Display blockchain
+    print("\nBlockchain after voting:")
+    for block in blockchain.chain:
+        print(block)
+
+if __name__ == '__main__':
+    main()
+```
